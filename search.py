@@ -65,7 +65,6 @@ class SearchTickets:
     def get_request(self, attempts):
         for attempt in range(attempts):
             url = self.get_url()
-            print(url)
             request = requests.get(url)
             if request.status_code == 200:
                 return request
@@ -110,4 +109,4 @@ if __name__ == "__main__":
     month = input("Please, type it: month: \n")
     year = input("Please, type it: year: \n")
     search_ticket = SearchTickets(from_city, from_state, to_city, to_state, day, month, year)
-    print(search_ticket.search())
+    search_ticket.search()
