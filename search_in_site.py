@@ -13,8 +13,8 @@ class SearchInSite:
 	def get_date_and_time(self):
 		passagens = 0
 		resultado = {
-			'resultado': 'Nenhuma passagem foi encontrada, tente outra data',
-			'sucesso': False,
+			'message': 'Nenhuma passagem foi encontrada, tente outra data',
+			'sucess': False,
 			'objects': [],
 		}
 		
@@ -31,19 +31,19 @@ class SearchInSite:
 			to_city = to_city.text
 			price = price.get("data-price")
 			if (departure_date_and_time, arrival_date_and_time, travel_company, from_city, to_city):
-				resultado['sucesso'] = True
+				resultado['sucess'] = True
 				resultado['objects'].append({
-					"Partida": from_city,
-					"Chegada": to_city,
-					"Data de partida": departure_date_and_time,
-					"Data de chegada": arrival_date_and_time,
-					"Empresa": travel_company,
-					"Price": price,
+					"departure": from_city,
+					"arrival": to_city,
+					"departure_date": departure_date_and_time,
+					"arrival_date": arrival_date_and_time,
+					"company": travel_company,
+					"price": price,
 				})
 
-		if resultado['sucesso']:
+		if resultado['sucess']:
 			message = f'{passagens} passagens' if passagens > 1 else f'{passagens} passagem'
-			resultado['resultado'] = f'A sua busca resultou em: {message}'
+			resultado['message'] = f'A sua busca resultou em: {message}'
 
 		return resultado
 

@@ -77,8 +77,8 @@ class SearchTickets:
 
     def search(self):
         resultado = {
-            'resultado': '',
-            'sucesso': False,
+            'message': '',
+            'sucess': False,
             'objects': [],
         }
 
@@ -87,17 +87,18 @@ class SearchTickets:
             if request and request.status_code == 200:
                 soup = BeautifulSoup(request.text, 'html.parser')
                 search_in_site = SearchInSite(soup)
-                return search_in_site.get_date_and_time()
+                return search_in_site.get_date_and_time(), requests.codes.ok
             else:
                 resultado.update({
-                    'resultado': 'Ops! A requisição não foi atendida, por favor, verifique os dados e tente novamente!',
+                    'message': 'Ops! A requisição não foi atendida, por favor, verifique os dados e tente novamente!',
                     })
-                return resultado
+                return resultado, requests.codes.no_content
         else:
             resultado.update({
-                'resultado': 'Você precisa fornecer os dados: CIDADE-ESTADO de origem e destino, DIA/MÊS/ANO são opcionais.'
+                'message': 'Você precisa fornecer os dados: CIDADE-ESTADO de origem e destino, DIA/MÊS/ANO são opcionais.'
                 })
-            return resultado
+            return resultado, requests.codes.bad_request
+
 
 
 if __name__ == "__main__":

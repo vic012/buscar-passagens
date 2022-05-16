@@ -1,0 +1,173 @@
+{
+    "openapi":"3.0.2",
+    "info":{
+        "title":"Buscar Passagens de ônibus",
+        "description":"Essa API tem o objetivo de listar passagens disponíveis de ônibus e as suas informações",
+        "contact":{
+            "name":"Pedro Henrique Vicente de Sousa",
+            "url":"http://pedro.pythonanywhere.com/",
+            "email":"henriquevic012@gmail.com"},
+            "version":"1.0"
+        },"paths":{
+            "/tickets/":{
+                "get":{
+                    "summary":"Tickets",
+                    "operationId":"tickets_tickets__get",
+                    "parameters":[
+                        {
+                            "required":true,
+                            "schema":{
+                                "title":"From City"},
+                                "name":"Cidade de origem",
+                                "in":"str"
+                            },
+                            {
+                                "required":true,
+                                "schema":{
+                                    "title":"From State"
+                                },"name":"Estado de origem",
+                                "in":"str"
+                            },
+                            {
+                                "required":true,
+                                "schema":{
+                                    "title":"To City"
+                                },"name":"Cidade de destino",
+                                "in":"str"
+                            },
+                            {
+                                "required":true,
+                                "schema":{
+                                    "title":"To State"
+                                },"name":"Estado de destino",
+                                "in":"str"
+                            },
+                            {
+                                "required":false,
+                                "schema":{
+                                    "title":"Day"
+                                    },"name":"Dia da viagem",
+                                    "in":"int"
+                            },
+                            {
+                                "required":false,
+                                "schema":{
+                                    "title":"Month"
+                                    },"name":"Mês da viagem",
+                                    "in":"int"
+                            },{
+                                "required":false,
+                                "schema":{
+                                    "title":"Year"},
+                                    "name":"Ano da viagem",
+                                    "in":"int"
+                            }
+                    ],
+                    "responses":{
+                        "200":{
+                            "description":"Resposta bem-sucedida",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref":"#/components/schemas/HTTPValidationError"
+                                    }
+                                }
+                            }
+                        },
+                        "422":{
+                            "description":"Validation Error",
+                            "content":{
+                                "application/json":{
+                                    "schema":{
+                                        "$ref":"#/components/schemas/ValidationSucess"
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "components":{
+            "schemas":{
+                "HTTPValidationError":{
+                    "title":"HTTPValidationError",
+                    "type":"object",
+                    "properties":{
+                        "detail":{
+                            "title":"Detail",
+                            "type":"array",
+                            "items":{
+                                "$ref":"#/components/schemas/ValidationError"
+                            }
+                        }
+                    }
+                },
+                "ValidationSucess":{
+                    "title":"Sucesso",
+                    "required":[
+                        "result",
+                        "sucess",
+                        "objects"
+                    ],
+                    "type":"object",
+                    "properties":{
+                        "result":{
+                            "resultado":"Quantidade de passagens encontradas",
+                            "type":"string"
+                        },
+                        "sucess":{
+                            "title":"True",
+                            "type":"boolean"
+                        },
+                        "objects":{
+                            "title":"Passagens",
+                            "type":"array",
+                            "items":[
+                                {
+                                    "Partida": "Cidade, UF - terminal",
+                                    "Chegada": "Cidade, UF - terminal",
+                                    "Data de partida": "2022-05-16 01:55:00",
+                                    "Data de chegada": "2022-05-16 10:40:00",
+                                    "Empresa": "Empresa",
+                                    "Price": "Preco"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "ValidationError":{
+                    "title":"ValidationError",
+                    "required":[
+                        "loc",
+                        "msg",
+                        "type"
+                    ],
+                    "type":"object",
+                    "properties":{
+                        "loc":{
+                            "title":"Location",
+                            "type":"array",
+                            "items":{
+                                "anyOf":[
+                                    {
+                                        "type":"string"
+                                    },{
+                                        "type":"integer"
+                                    }
+                                ]
+                            }
+                        },
+                        "msg":{
+                            "title":"Message",
+                            "type":"string"
+                        },
+                        "type":{
+                            "title":"Error Type",
+                            "type":"string"
+                        }
+                    }
+                }
+            }
+        }
+}

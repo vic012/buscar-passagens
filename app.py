@@ -1,6 +1,8 @@
 import search
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from fastapi.openapi.utils import get_openapi
+from fastapi.openapi.docs import get_swagger_ui_html
 
 app = FastAPI()
 
@@ -11,11 +13,11 @@ async def tickets(
 	day = day or ""
 	month = month or ""
 	year = year or ""
-	#print(from_city, from_state, to_city, to_state, day, month, year)
-	robot = search.SearchTickets(from_city, from_state, to_city, to_state, day, month, year)
-	response = robot.search()
 
-	return {'result': response} 
+	robot = search.SearchTickets(from_city, from_state, to_city, to_state, day, month, year)
+	response, status = robot.search()
+
+	return JSONResponse(status_code=status, content={'result': response})
 
 def custom_openapi():
     if app.openapi_schema:
@@ -32,7 +34,7 @@ def custom_openapi():
            "email": "henriquevic012@gmail.com"
        	},
     )
-
+    get_swagger_ui_html(openapi_url="api/v1/openapi.json", title="docs")
     app.openapi_schema = openapi_schema
     return app.openapi_schema
 
